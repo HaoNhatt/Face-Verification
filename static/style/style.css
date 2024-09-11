@@ -70,4 +70,5 @@
 .error-message {
     display: block;
     color: red;
+    opacity: 0;
 }

@@ -54,7 +54,6 @@ def load_model(weight_path, model_name="r50"):
 def verifyImages(img_path_1, img_path_2):
     # print(torch.cuda.is_available())
     model_path = "models/arcface_model.pt"
-    # model_path = "/content/model.pt"
 
     net = load_model(model_path)
 

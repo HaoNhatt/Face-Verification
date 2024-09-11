@@ -11,6 +11,7 @@ from django.core.files.storage import FileSystemStorage
 from pathlib import Path
 
 from .arcface import verifyImages
+from .facenetUsage import verification, getModel
 
 
 def getRoutes(request):
@@ -35,18 +36,23 @@ def verify(request):
         img_path_1 = f"media/{res_1}"
         img_path_2 = f"media/{res_2}"
 
-        # BASE_DIR = Path(__file__).resolve().parent.parent.parent
+        chosen_model = request.POST.get("chosen_model")
+        # print(chosen_model)
 
-        # img = cv2.imread(os.path.join(BASE_DIR, "media\gwen_mythmaker.jpg"))
+        if chosen_model == "model_arcface":
+            similarity_score, model_res = verifyImages(img_path_1, img_path_2)
+            similarity_score = float(similarity_score)
+        elif chosen_model == "model_facenet":
+            similarity_score, model_res = 0.7, 1
 
-        # img = cv2.imread(f"media\{res}")
-        # print(img)
+            # model_facenet = ""
+            # similarity_score, model_res = verification(
+            #     model_facenet, img_path_1, img_path_2
+            # )
+            similarity_score = float(similarity_score)
 
-        similarity_score, model_res = verifyImages(img_path_1, img_path_2)
-        similarity_score = float(similarity_score)
-
-        print(similarity_score)
-        print(model_res)
+        # print(similarity_score)
+        # print(model_res)
 
         fs.delete(res_1)
         fs.delete(res_2)
