@@ -11,7 +11,7 @@ from django.core.files.storage import FileSystemStorage
 from pathlib import Path
 
 from .arcface import verifyImages
-from .facenetUsage import verification, getModel
+from .facenetUsage import verification
 
 
 def getRoutes(request):
@@ -43,12 +43,7 @@ def verify(request):
             similarity_score, model_res = verifyImages(img_path_1, img_path_2)
             similarity_score = float(similarity_score)
         elif chosen_model == "model_facenet":
-            similarity_score, model_res = 0.7, 1
-
-            # model_facenet = ""
-            # similarity_score, model_res = verification(
-            #     model_facenet, img_path_1, img_path_2
-            # )
+            similarity_score, model_res = verification(img_path_1, img_path_2)
             similarity_score = float(similarity_score)
 
         # print(similarity_score)
