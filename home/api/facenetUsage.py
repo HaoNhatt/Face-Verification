@@ -1,7 +1,7 @@
 import torch
 import PIL
 from torchvision import transforms
-from backbones.InceptionResnetV1_facenetpytorch import *
+from InceptionResnetV1_facenetpytorch import *
 
 def getModel(nClasses, path):
     '''
@@ -18,7 +18,7 @@ def fixed_image_standardization(image_tensor):
 
 def loadImage2Tensor(path):
     '''
-    Load image from path, return its tensor form.
+    Load image from path, transform and return its tensor form.
     '''
     image = PIL.Image.open(path)
     trans = transforms.Compose([
@@ -36,10 +36,18 @@ def computeEmbedding(model, img):
     flattenOutput = torch.flatten(model(img).detach().cpu())
     return torch.nn.functional.normalize(flattenOutput, p = 2.0, dim = 0)
 
-def cosineSimilarity(emb1, emb2, threshold = 0.6803):
-    '''
-    Return the cosine similarity between two embeddings (float [0, 1])
-        and whether they are of the same person (bool).
-    '''
+def cosineSimilarity(emb1, emb2):
     sim = torch.dot(emb1, emb2)
-    return sim, sim > threshold
+    return sim
+
+def verification(model, path1, path2, threshold = 0.6803):
+    '''
+    Return the cosine similarity between two embeddings
+    and whether they are of the same person. 
+    '''
+    img1 = loadImage2Tensor(path1)
+    img2 = loadImage2Tensor(path2)
+    emb1 = computeEmbedding(model, img1)
+    emb2 = computeEmbedding(model, img2)
+    sim = cosineSimilarity(emb1, emb2)
+    return sim, sim >= threshold
