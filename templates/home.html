@@ -125,9 +125,11 @@
                 errorMessage.style.opacity = 1;
                 if (model_res == 1) {
                     errorMessage.innerText = `The two images are likely from the SAME identity (Similarity: ${score}).`;
+                    errorMessage.style.color = "green";
                 }
                 else {
                     errorMessage.innerText = `The two images are likely from the DIFFERENT identity (Similarity: ${score}).`;
+                    errorMessage.style.color = "red";
                 }
             })
             .catch(error => {
