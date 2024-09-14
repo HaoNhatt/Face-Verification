@@ -1,7 +1,7 @@
 import torch
 import PIL
 from torchvision import transforms
-from .backbones.InceptionResnetV1_facenetpytorch import *
+from backbones.InceptionResnetV1_facenetpytorch import *
 
 
 def getModel(nClasses, path):
@@ -10,11 +10,12 @@ def getModel(nClasses, path):
     Load saved weight from path.
     """
     model = InceptionResnetV1(num_classes=nClasses)
-    model.load_state_dict(torch.load(path)["state_dict"])
+    model.load_state_dict(torch.load(path))
     return model
 
 
 model = getModel(nClasses = 2154, path = "../../models/facenet_model.pth")
+model.eval()
 
 def fixed_image_standardization(image_tensor):
     processed_tensor = (image_tensor - 127.5) / 128.0
