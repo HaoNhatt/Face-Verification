@@ -45,9 +45,10 @@ def verify(request):
         elif chosen_model == "model_facenet":
             similarity_score, model_res = verification(img_path_1, img_path_2)
             similarity_score = float(similarity_score)
+            model_res = model_res.item()
 
-        # print(similarity_score)
-        # print(model_res)
+        print(similarity_score)
+        print(model_res)
 
         fs.delete(res_1)
         fs.delete(res_2)
